@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Fisika: Kesetimbangan Benda Tegar</title>
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            --glass-bg: rgba(30, 41, 59, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --primary-glow: #6366f1;
+            --accent-cyan: #38bdf8;
+            --accent-pink: #f43f5e;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 30px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 35px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--glass-border);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #facc15; /* Diubah menjadi garis tegas warna kuning */
+            padding-bottom: 20px;
+            position: relative;
+        }
+        
+        /* Pojok Kiri Atas */
+        .header-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: left;
+            font-size: 13px;
+            line-height: 1.3;
+        }
+        .header-left .wokib {
+            text-decoration: underline;
+            font-weight: 800;
+            color: var(--accent-cyan);
+            letter-spacing: 0.5px;
+        }
+        .header-left .deep-learning {
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+
+        /* Pojok Kanan Atas */
+        .header-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 13px;
+            font-weight: 700;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            color: #818cf8;
+            padding: 2px 12px;
+            border-radius: 20px;
+        }
+
+        header h1 { 
+            background: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #f43f5e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 26px; 
+            font-weight: 800;
+            text-transform: uppercase; 
+            margin-top: 18px; 
+            letter-spacing: 0.5px;
+        }
+        
+        header p { 
+            font-size: 14px; 
+            color: var(--text-muted); 
+            margin-top: 5px; 
+            font-weight: 600; 
+        }
+        
+        /* Narasi Kiri Atas */
+        .section-title-left {
+            text-align: left;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Bagian Komik Display */
+        .comic-section {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .comic-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Tombol Interaktif Toggle Simulasi */
+        .btn-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .instruction-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .instruction-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
+            background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+        }
+
+        /* Laboratorium Simulasi Interaktif (Default Disembunyikan) */
+        .simulation-section {
+            display: none;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .sim-title {
+            text-align: center;
+            color: #c084fc;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        canvas {
+            background: #0b0f19;
+            border-radius: 14px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            background: rgba(30, 41, 59, 0.85);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: rgba(15, 23, 42, 0.7);
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        label { 
+            font-size: 13px; 
+            font-weight: 600; 
+            color: var(--text-muted);
+        }
+        
+        input[type="range"] { 
+            width: 100%; 
+            accent-color: #818cf8;
+            cursor: pointer;
+        }
+
+        .data-display {
+            grid-column: span 2;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 14px;
+            background: rgba(15, 23, 42, 0.9);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            letter-spacing: 0.3px;
+        }
+
+        .status-balanced { 
+            color: #34d399; 
+            background: rgba(52, 211, 153, 0.15);
+            padding: 3px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(52, 211, 153, 0.3);
+        }
+        
+        .status-tilted { 
+            color: #f87171; 
+            background: rgba(248, 113, 113, 0.15);
+            padding: 3px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(248, 113, 113, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <!-- Pojok Kiri Atas Header -->
+        <div class="header-left">
+            <div class="wokib">Wokib</div>
+            <div class="deep-learning">Deep Learning</div>
+        </div>
+
+        <!-- Pojok Kanan Atas Header -->
+        <div class="header-right">2026</div>
+
+        <h1>KESETIMBANGAN BENDA TEGAR</h1>
+        <p>Ayo Kuasai Konsepnya dan Pahami Konteksnya</p>
+    </header>
+
+    <!-- NARASI DI POJOK KIRI ATAS TANPA GARIS -->
+    <div class="section-title-left">🚀 AYO BELAJAR KESEIMBANGAN ROTASI PADA KASUS JUNGKAT-JUNGKIT</div>
+
+    <!-- BAGIAN 1: PENGANTAR KOMIK -->
+    <section class="comic-section">
+        <img src="images/komik.jpg" alt="Komik Kesetimbangan Benda Tegar" class="comic-image">
+    </section>
+
+    <!-- TOMBOL INTERAKTIF UTAMA -->
+    <div class="btn-container">
+        <button id="toggleSimBtn" class="instruction-btn" onclick="toggleSimulation()">
+            ✨ AYO COBA LABORATORIUM VIRTUALNYA ✨
+        </button>
+    </div>
+
+    <!-- BAGIAN 2: SIMULASI KESETIMBANGAN (Disembunyikan Default) -->
+    <section class="simulation-section" id="simSection">
+        <h2 class="sim-title">🔬 Laboratorium Kesetimbangan Interaktif (&Sigma;&tau; = 0)</h2>
+        
+        <div class="canvas-container">
+            <canvas id="simCanvas" width="600" height="250"></canvas>
+        </div>
+
+        <div class="controls">
+            <div class="control-group" style="border-left: 4px solid #38bdf8;">
+                <label>Beban Kiri (<i>W</i><sub>1</sub>): <span id="w1Val" style="color:#38bdf8; font-weight:bold;">20</span> N</label>
+                <input type="range" id="weight1" min="5" max="50" value="20" step="5">
+                
+                <label style="margin-top:5px;">Jarak Kiri (<i>r</i><sub>1</sub>): <span id="d1Val" style="color:#38bdf8; font-weight:bold;">0.5</span> m</label>
+                <input type="range" id="dist1" min="0.1" max="2.0" value="0.5" step="0.1">
+            </div>
+
+            <div class="control-group" style="border-left: 4px solid #f43f5e;">
+                <label>Beban Kanan (<i>W</i><sub>2</sub>): <span id="w2Val" style="color:#f43f5e; font-weight:bold;">10</span> N</label>
+                <input type="range" id="weight2" min="5" max="50" value="10" step="5">
+                
+                <label style="margin-top:5px;">Jarak Kanan (<i>r</i><sub>2</sub>): <span id="d2Val" style="color:#f43f5e; font-weight:bold;">1.0</span> m</label>
+                <input type="range" id="dist2" min="0.1" max="2.0" value="1.0" step="0.1">
+            </div>
+
+            <div class="data-display" id="statusBox">
+                Torsi Kiri: 10.0 Nm | Torsi Kanan: 10.0 Nm &rarr; <span class="status-balanced">✨ SISTEM SEIMBANG (&Sigma;&tau; = 0) ✨</span>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const w1Slider = document.getElementById('weight1');
+    const d1Slider = document.getElementById('dist1');
+    const w2Slider = document.getElementById('weight2');
+    const d2Slider = document.getElementById('dist2');
+
+    const w1Val = document.getElementById('w1Val');
+    const d1Val = document.getElementById('d1Val');
+    const w2Val = document.getElementById('w2Val');
+    const d2Val = document.getElementById('d2Val');
+    const statusBox = document.getElementById('statusBox');
+
+    let currentAngle = 0;
+    let isSimRunning = false;
+    let animationId = null;
+
+    function toggleSimulation() {
+        const simSection = document.getElementById('simSection');
+        const btn = document.getElementById('toggleSimBtn');
+
+        if (simSection.style.display === 'block') {
+            simSection.style.display = 'none';
+            btn.innerHTML = '✨ AYO COBA LABORATORIUM VIRTUALNYA ✨';
+            isSimRunning = false;
+            cancelAnimationFrame(animationId);
+        } else {
+            simSection.style.display = 'block';
+            btn.innerHTML = '▲ SEMBUNYIKAN LABORATORIUM VIRTUAL ▲';
+            isSimRunning = true;
+            drawSimulation();
+            simSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    function drawSimulation() {
+        if (!isSimRunning) return;
+
+        const f1 = parseFloat(w1Slider.value);
+        const r1 = parseFloat(d1Slider.value);
+        const f2 = parseFloat(w2Slider.value);
+        const r2 = parseFloat(d2Slider.value);
+
+        w1Val.innerText = f1;
+        d1Val.innerText = r1.toFixed(1);
+        w2Val.innerText = f2;
+        d2Val.innerText = r2.toFixed(1);
+
+        const tau1 = f1 * r1;
+        const tau2 = f2 * r2;
+        const diff = tau2 - tau1; 
+
+        let targetAngle = 0;
+        if (Math.abs(diff) < 0.1) {
+            targetAngle = 0;
+            statusBox.innerHTML = `Torsi Kiri: ${tau1.toFixed(1)} Nm | Torsi Kanan: ${tau2.toFixed(1)} Nm &rarr; <span class="status-balanced">✨ SISTEM SEIMBANG (&Sigma;&tau; = 0) ✨</span>`;
+        } else if (diff > 0) {
+            targetAngle = 0.15; 
+            statusBox.innerHTML = `Torsi Kiri: ${tau1.toFixed(1)} Nm | Torsi Kanan: ${tau2.toFixed(1)} Nm &rarr; <span class="status-tilted">⚠️ MIRING KE KANAN (&Sigma;&tau; &ne; 0)</span>`;
+        } else {
+            targetAngle = -0.15; 
+            statusBox.innerHTML = `Torsi Kiri: ${tau1.toFixed(1)} Nm | Torsi Kanan: ${tau2.toFixed(1)} Nm &rarr; <span class="status-tilted">⚠️ MIRING KE KIRI (&Sigma;&tau; &ne; 0)</span>`;
+        }
+
+        currentAngle += (targetAngle - currentAngle) * 0.1;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const centerX = canvas.width / 2;
+        const centerY = 140;
+
+        // 1. Gambar Penyangga Segitiga (Poros) Tengah
+        ctx.fillStyle = '#475569';
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(centerX - 22, centerY + 55);
+        ctx.lineTo(centerX + 22, centerY + 55);
+        ctx.closePath();
+        ctx.fill();
+        
+        ctx.fillStyle = '#334155';
+        ctx.fillRect(centerX - 35, centerY + 55, 70, 6);
+
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(currentAngle);
+
+        // 2. Gambar Batang Utama Jungkat-jungkit (Neon Gradient)
+        const barGradient = ctx.createLinearGradient(-220, 0, 220, 0);
+        barGradient.addColorStop(0, '#38bdf8');
+        barGradient.addColorStop(0.5, '#818cf8');
+        barGradient.addColorStop(1, '#f43f5e');
+        
+        ctx.fillStyle = barGradient;
+        ctx.fillRect(-220, -5, 440, 10);
+
+        const scale = 100; // 1 meter = 100 pixel
+
+        const mass1 = (f1 / 10).toFixed(1);
+        const mass2 = (f2 / 10).toFixed(1);
+
+        // 3. Gambar Kotak Beban Kiri (Cyan Terang)
+        const x1 = -r1 * scale;
+        const size1 = 24 + (f1 * 0.4); 
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillRect(x1 - size1/2, -5 - size1, size1, size1);
+        
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 11px Poppins, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(`${mass1} kg`, x1, -5 - size1/2 + 4);
+
+        // 4. Gambar Kotak Beban Kanan (Pink Terang)
+        const x2 = r2 * scale;
+        const size2 = 24 + (f2 * 0.4);
+        ctx.fillStyle = '#f43f5e';
+        ctx.fillRect(x2 - size2/2, -5 - size2, size2, size2);
+        
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 11px Poppins, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(`${mass2} kg`, x2, -5 - size2/2 + 4);
+
+        // 5. Garis Penunjuk Jarak r1 (Hijau) & r2 (Merah)
+        ctx.lineWidth = 2.5;
+        ctx.setLineDash([]); // Garis tegas (solid)
+
+        // Garis r1 (Hijau)
+        ctx.strokeStyle = '#22c55e';
+        ctx.beginPath();
+        ctx.moveTo(0, 12);
+        ctx.lineTo(x1, 12);
+        ctx.stroke();
+
+        ctx.fillStyle = '#22c55e';
+        ctx.font = 'bold 11px Poppins, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(`r₁ = ${r1.toFixed(1)}m`, x1 / 2, 28);
+
+        // Garis r2 (Merah)
+        ctx.strokeStyle = '#ef4444';
+        ctx.beginPath();
+        ctx.moveTo(0, 12);
+        ctx.lineTo(x2, 12);
+        ctx.stroke();
+
+        ctx.fillStyle = '#ef4444';
+        ctx.font = 'bold 11px Poppins, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(`r₂ = ${r2.toFixed(1)}m`, x2 / 2, 28);
+
+        ctx.restore();
+
+        animationId = requestAnimationFrame(drawSimulation);
+    }
+</script>
+</body>
+</html>
